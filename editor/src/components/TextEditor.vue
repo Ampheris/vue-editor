@@ -1,10 +1,11 @@
 <template>
-<h2> Text editor </h2>
+  <h2> Text editor </h2>
+  <QuillEditor theme="snow"/>
 </template>
 
 <script>
 export default {
-  name: "TextEditor"
+  name: "TextEditor",
 }
 </script>
 

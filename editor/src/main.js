@@ -1,14 +1,14 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
-/* import the fontawesome core */
-import { library } from '@fortawesome/fontawesome-svg-core'
 
-/* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-/* import specific icons */
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {faFloppyDisk} from '@fortawesome/free-solid-svg-icons'
+
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
 
 library.add(faFloppyDisk)
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+createApp(App).component('QuillEditor', QuillEditor).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
