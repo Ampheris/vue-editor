@@ -8,7 +8,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#"><font-awesome-icon icon="fa-solid fa-floppy-disk" /> Save</a>
+            <a class="nav-link" href="#" @click.prevent="saveText"><font-awesome-icon icon="fa-solid fa-floppy-disk" /> Save</a>
           </li>
         </ul>
       </div>
@@ -18,7 +18,14 @@
 
 <script>
 export default {
-  name: "ToolbarItem"
+  name: "ToolbarItem",
+  methods: {
+    saveText() {
+      let text = document.getElementsByClassName('ql-editor');
+      console.log(`Printing content of text editor:`);
+      console.log(text[0].innerHTML);
+    }
+  }
 }
 </script>
 
