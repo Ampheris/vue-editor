@@ -1,14 +1,15 @@
 <template>
   <ToolbarItem/>
-  <h1>Frontpage of the editor</h1>
+  <TextEditor/>
 </template>
 
 <script>
 import ToolbarItem from "@/components/Toolbar";
+import TextEditor from "@/components/TextEditor";
 
 export default {
   name: "FrontPage",
-  components: {ToolbarItem}
+  components: {TextEditor, ToolbarItem}
 }
 </script>
 
