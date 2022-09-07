@@ -9,7 +9,7 @@ import TextEditor from "@/components/TextEditor";
 
 export default {
   name: "FrontPage",
-  components: {TextEditor, ToolbarItem}
+  components: {TextEditor, ToolbarItem},
 }
 </script>
 
