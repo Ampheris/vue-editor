@@ -12,6 +12,10 @@ class APIService {
     static getAllDocuments(){
         return http.get('/all');
     }
+
+    static getSpecificFile(id){
+        return http.get(`/get/${id}`);
+    }
 }
 
 export default APIService;

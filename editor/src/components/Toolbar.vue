@@ -27,7 +27,7 @@
       </div>
     </div>
   </nav>
-  <GenericModals :documents="documents"/>
+  <GenericModals :documents="documents" @openDoc="onOpenDoc"/>
 </template>
 
 <script>
@@ -39,12 +39,13 @@ export default {
   components: {GenericModals},
   data() {
     return {
-      documents: []
+      documents: [],
+      currentFile: {
+        id: '',
+        name: '',
+        content: '',
+      }
     }
-  },
-  async created() {
-    let result = await APIService.getAllDocuments();
-    this.documents = result.data.files;
   },
   methods: {
     saveText() {
@@ -52,8 +53,16 @@ export default {
       console.log(`Printing content of text editor:`);
       console.log(text[0].innerHTML);
     },
-    createNew() {
-      // Open modal
+    async onOpenDoc(id){
+      let result = await APIService.getSpecificFile(id);
+      this.currentFile.content = result.data.file.content;
+      this.currentFile.name = result.data.file.name;
+      this.currentFile.id = result.data.file._id;
+
+      console.log(`current file: ${this.currentFile.id}`);
+
+      let editor = document.getElementsByClassName('ql-editor');
+      editor[0].innerHTML = this.currentFile.content;
     }
   }
 }
