@@ -9,7 +9,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="saveText">
+            <a class="nav-link" @click.prevent="saveText">
               <font-awesome-icon icon="fa-solid fa-floppy-disk"/>
               Save</a>
           </li>
@@ -48,18 +48,21 @@ export default {
     }
   },
   methods: {
-    saveText() {
+    async saveText() {
       let text = document.getElementsByClassName('ql-editor');
       console.log(`Printing content of text editor:`);
       console.log(text[0].innerHTML);
+
+      this.currentFile.content = text[0].innerHTML;
+
+
+      await APIService.updateDocument(this.currentFile, this.currentFile.id);
     },
     async onOpenDoc(id){
       let result = await APIService.getSpecificFile(id);
       this.currentFile.content = result.data.file.content;
       this.currentFile.name = result.data.file.name;
       this.currentFile.id = result.data.file._id;
-
-      console.log(`current file: ${this.currentFile.id}`);
 
       let editor = document.getElementsByClassName('ql-editor');
       editor[0].innerHTML = this.currentFile.content;
