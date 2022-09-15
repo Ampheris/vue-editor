@@ -14,12 +14,12 @@
               Save</a>
           </li>
           <li>
-            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#createNewModal">
+            <a id="create-new" class="nav-link" data-bs-toggle="modal" data-bs-target="#createNewModal">
               <font-awesome-icon icon="fa-solid fa-plus"/>
               Create new</a>
           </li>
           <li>
-            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#getAllModal">
+            <a id="open-document" class="nav-link" data-bs-toggle="modal" data-bs-target="#getAllModal">
               <font-awesome-icon icon="fa-solid fa-folder-open"/>
               Open document</a>
           </li>
@@ -27,7 +27,7 @@
       </div>
     </div>
   </nav>
-  <GenericModals :documents="documents" @openDoc="onOpenDoc"/>
+  <GenericModals @openDoc="onOpenDoc"/>
 </template>
 
 <script>
@@ -39,7 +39,6 @@ export default {
   components: {GenericModals},
   data() {
     return {
-      documents: [],
       currentFile: {
         id: '',
         name: '',
