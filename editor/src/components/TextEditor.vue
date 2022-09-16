@@ -1,6 +1,10 @@
 <template>
-  <h2> Text editor </h2>
-  <QuillEditor theme="snow"/>
+  <div>
+    <h2> Text editor </h2>
+    <div id="editor-div">
+      <QuillEditor theme="snow" id="editor"/>
+    </div>
+  </div>
 </template>
 
 <script>
