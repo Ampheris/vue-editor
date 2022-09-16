@@ -24,4 +24,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: npm install
+      working-directory: ./editor
     - run: npm test:unit
+      working-directory: ./editor
