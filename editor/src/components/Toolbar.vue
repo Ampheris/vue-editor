@@ -1,35 +1,36 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Vue Editor</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" @click.prevent="saveText">
-              <font-awesome-icon icon="fa-solid fa-floppy-disk"/>
-              Save</a>
-          </li>
-          <li>
-            <a id="create-document" class="nav-link" data-bs-toggle="modal" data-bs-target="#createNewModal">
-              <font-awesome-icon icon="fa-solid fa-plus"/>
-              Create new</a>
-          </li>
-          <li>
-            <a id="open-document" class="nav-link" @click="getAllDocuments" data-bs-toggle="modal" data-bs-target="#getAllModal">
-              <font-awesome-icon icon="fa-solid fa-folder-open"/>
-              Open document</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- CREATE NEW MODAL -->
   <div>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Vue Editor</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" @click.prevent="saveText">
+                <font-awesome-icon icon="fa-solid fa-floppy-disk"/>
+                Save</a>
+            </li>
+            <li>
+              <a id="create-document" class="nav-link" data-bs-toggle="modal" data-bs-target="#createNewModal">
+                <font-awesome-icon icon="fa-solid fa-plus"/>
+                Create new</a>
+            </li>
+            <li>
+              <a id="open-document" class="nav-link" @click="getAllDocuments" data-bs-toggle="modal"
+                 data-bs-target="#getAllModal">
+                <font-awesome-icon icon="fa-solid fa-folder-open"/>
+                Open document</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- CREATE NEW MODAL -->
     <div class="modal fade" id="createNewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -125,7 +126,7 @@ export default {
       let result = await APIService.getAllDocuments();
       this.documents = result.data.files;
     },
-    async openDocument(){
+    async openDocument() {
       let result = await APIService.getSpecificFile(this.idOfDocument);
       this.currentFile.content = result.data.file.content;
       this.currentFile.name = result.data.file.name;
