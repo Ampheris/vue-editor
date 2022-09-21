@@ -1,6 +1,6 @@
 import http from '../http-common';
 
-class APIService {
+export default class APIService {
     static createNew(formData) {
         return http.post('/create', formData);
     }
@@ -17,5 +17,3 @@ class APIService {
         return http.get(`/get/${id}`);
     }
 }
-
-export default APIService;

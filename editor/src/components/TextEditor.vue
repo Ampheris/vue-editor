@@ -10,6 +10,16 @@
 <script>
 export default {
   name: "TextEditor",
+  inject: ['socket'],
+  data() {
+    return {
+      webSocket: this.socket,
+    }
+  },
+  created() {
+    console.log(this.webSocket);
+    this.webSocket.sendHello();
+  }
 }
 </script>
 
