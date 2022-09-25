@@ -112,7 +112,6 @@ export default {
 
       this.currentFile.content = text[0].innerHTML;
 
-
       await APIService.updateDocument(this.currentFile, this.currentFile.id);
     },
     async createNew() {
@@ -138,6 +137,7 @@ export default {
       editor[0].innerHTML = this.currentFile.content;
 
       this.webSocket.createRoom(this.currentFile.id);
+      this.$emit('getDocId', this.currentFile.id)
     }
   }
 }

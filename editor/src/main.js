@@ -17,14 +17,10 @@ const store = createStore({
     state() {
         return {
             count: 0,
+            _id: '',
             message: '',
         }
     },
-    mutations: {
-        increment(state) {
-            state.count++
-        }
-    }
 })
 
 library.add(faFloppyDisk);

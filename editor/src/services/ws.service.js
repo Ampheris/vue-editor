@@ -16,4 +16,8 @@ export default class SocketClient {
         this.socket.emit('create', id);
         console.log('A room is being created');
     }
+
+    liveUpdate(doc) {
+        this.socket.emit("liveUpdate", doc);
+    }
 }
