@@ -1,6 +1,8 @@
 <template>
-  <ToolbarItem/>
-  <TextEditor/>
+  <div>
+    <ToolbarItem/>
+    <TextEditor/>
+  </div>
 </template>
 
 <script>
