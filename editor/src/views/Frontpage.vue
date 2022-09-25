@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ToolbarItem/>
-    <TextEditor/>
+    <ToolbarItem @getDocId="getDocId"/>
+    <TextEditor :docId="docId"/>
   </div>
 </template>
 
@@ -12,6 +12,16 @@ import TextEditor from "@/components/TextEditor";
 export default {
   name: "FrontPage",
   components: {TextEditor, ToolbarItem},
+  data() {
+    return {
+      docId: 0
+    }
+  },
+  methods: {
+    getDocId(id) {
+      this.docId = id;
+    }
+  }
 }
 </script>
 

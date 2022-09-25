@@ -87,8 +87,10 @@ import APIService from "@/services/api.services";
 
 export default {
   name: "ToolbarItem",
+  inject: ['socket'],
   data() {
     return {
+      webSocket: this.socket,
       idOfDocument: '',
       newDocument: {
         name: '',
@@ -109,7 +111,6 @@ export default {
       console.log(text[0].innerHTML);
 
       this.currentFile.content = text[0].innerHTML;
-
 
       await APIService.updateDocument(this.currentFile, this.currentFile.id);
     },
@@ -134,6 +135,9 @@ export default {
 
       let editor = document.getElementsByClassName('ql-editor');
       editor[0].innerHTML = this.currentFile.content;
+
+      this.webSocket.createRoom(this.currentFile.id);
+      this.$emit('getDocId', this.currentFile.id)
     }
   }
 }
