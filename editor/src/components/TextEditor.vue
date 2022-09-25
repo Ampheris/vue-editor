@@ -9,6 +9,7 @@
 
 <script>
 import {QuillEditor} from "@vueup/vue-quill";
+import APIService from "@/services/api.services";
 
 export default {
   name: "TextEditor",
@@ -34,8 +35,9 @@ export default {
 
     this.webSocket.socket.on("doc", (data) => {
       this.doc.html = data.html;
-      //this.editor.setContents(data.diff);
-      this.editor.pasteHTML(this.doc.html, 'silent');
+      this.doc.diff = data.diff;
+
+      this.editor.updateContents(data.diff, 'silent');
       console.log(`From backend: ${data.html}`);
     });
   },
@@ -55,8 +57,17 @@ export default {
         this.doc.diff = delta.delta;
 
         this.webSocket.liveUpdate(this.doc);
+        this.saveDoc();
       }
     },
+    async saveDoc() {
+      let data= {
+        _id: this.doc._id,
+        content: this.doc.html,
+      }
+
+      await APIService.updateDocument(data, this.doc._id);
+    }
   }
 
 }
