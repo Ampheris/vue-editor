@@ -3,7 +3,7 @@ import App from './App.vue';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-import {faFloppyDisk, faFolderOpen, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faFloppyDisk, faFolderOpen, faPlus, faArrowRightToBracket} from '@fortawesome/free-solid-svg-icons';
 
 import {QuillEditor} from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
@@ -11,6 +11,10 @@ import {createStore} from 'vuex'
 
 import SocketClient from "@/services/ws.service";
 
+library.add(faFloppyDisk);
+library.add(faFolderOpen);
+library.add(faPlus);
+library.add(faArrowRightToBracket);
 
 // Create a new store instance.
 const store = createStore({
@@ -22,11 +26,6 @@ const store = createStore({
         }
     },
 })
-
-library.add(faFloppyDisk);
-library.add(faFolderOpen);
-library.add(faPlus);
-
 
 createApp(App)
     .component('QuillEditor', QuillEditor)

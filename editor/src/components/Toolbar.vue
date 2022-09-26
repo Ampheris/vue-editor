@@ -25,6 +25,12 @@
                 <font-awesome-icon icon="fa-solid fa-folder-open"/>
                 Open document</a>
             </li>
+            <li>
+              <a id="login-button" class="nav-link" data-bs-toggle="modal"
+                 data-bs-target="#loginModal">
+                <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket" />
+                Login</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -54,7 +60,7 @@
     <!-- END OF CREATE NEW MODAL-->
 
     <!-- GET ALL DOCUMENT MODAL -->
-    <div class="modal fade" id="getAllModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="getAllModal" tabindex="-1" aria-labelledby="getAllModal" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -72,6 +78,33 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="openDocument">Open file
               </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN FORM MODAL -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalTitle">Login to the editor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3 form-group">
+              <label for="username" class="float-start">Username</label>
+              <input id="username" class="form-control" type="text"
+                     v-model="user.username">
+
+              <label for="password" class="float-start">Password</label>
+              <input id="password" class="form-control" type="text"
+                     v-model="user.password">
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" @click="login">Login</button>
             </div>
           </div>
 
@@ -101,6 +134,10 @@ export default {
         id: '',
         name: '',
         content: '',
+      },
+      user: {
+        username: '',
+        password: '',
       }
     }
   },
@@ -138,6 +175,10 @@ export default {
 
       this.webSocket.createRoom(this.currentFile.id);
       this.$emit('getDocId', this.currentFile.id)
+    },
+    login() {
+      console.log('Tries to log in.');
+
     }
   }
 }
