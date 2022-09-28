@@ -28,7 +28,7 @@
             <li>
               <a id="login-button" class="nav-link" data-bs-toggle="modal"
                  data-bs-target="#loginModal">
-                <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket" />
+                <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket"/>
                 Login</a>
             </li>
           </ul>
@@ -104,9 +104,10 @@
                      v-model="user.password">
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" @click="login">Login</button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" @click="handleLogin">Login</button>
               <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                      data-bs-target="#registerModal">Register</button>
+                      data-bs-target="#registerModal">Register
+              </button>
             </div>
           </div>
         </div>
@@ -132,7 +133,8 @@
                      v-model="user.password">
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" @click="login">Register</button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" @click="handleRegister">Register
+              </button>
             </div>
           </div>
         </div>
@@ -203,10 +205,46 @@ export default {
       this.webSocket.createRoom(this.currentFile.id);
       this.$emit('getDocId', this.currentFile.id)
     },
-    login() {
-      console.log('Tries to log in.');
-
-    }
+    handleLogin(user) {
+      this.$store.dispatch("auth/login", user).then(
+          (data) => {
+            if (data.success === 0) {
+              this.message = data.message;
+              this.successful = false;
+            } else {
+              history.go(-1);
+            }
+          },
+          (error) => {
+            this.message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+          }
+      );
+    },
+    handleRegister(user) {
+      this.message = "";
+      this.$store.dispatch("auth/register", user).then(
+          (data) => {
+            if (data.success === 0) {
+              this.message = data.message;
+            } else {
+              this.message = data.message;
+            }
+          },
+          (error) => {
+            this.message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+          }
+      );
+    },
   }
 }
 </script>
