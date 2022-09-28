@@ -7,7 +7,7 @@ import {faFloppyDisk, faFolderOpen, faPlus, faArrowRightToBracket} from '@fortaw
 
 import {QuillEditor} from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import {createStore} from 'vuex'
+import store from "@/store";
 
 import SocketClient from "@/services/ws.service";
 
@@ -16,16 +16,6 @@ library.add(faFolderOpen);
 library.add(faPlus);
 library.add(faArrowRightToBracket);
 
-// Create a new store instance.
-const store = createStore({
-    state() {
-        return {
-            count: 0,
-            _id: '',
-            message: '',
-        }
-    },
-})
 
 createApp(App)
     .component('QuillEditor', QuillEditor)

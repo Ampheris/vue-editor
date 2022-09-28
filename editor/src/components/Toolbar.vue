@@ -90,24 +90,51 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="loginModalTitle">Login to the editor</h5>
+            <h5 class="modal-title" id="loginModalTitle">Login</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="mb-3 form-group">
               <label for="username" class="float-start">Username</label>
-              <input id="username" class="form-control" type="text"
+              <input id="username" class="form-control" type="text" placeholder="Your username..."
                      v-model="user.username">
 
               <label for="password" class="float-start">Password</label>
-              <input id="password" class="form-control" type="text"
+              <input id="password" class="form-control" type="text" placeholder="Your email..."
                      v-model="user.password">
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" @click="login">Login</button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
+                      data-bs-target="#registerModal">Register</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
 
+    <!-- REGISTER FORM MODAL -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerModalTitle">Register new account</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3 form-group">
+              <label for="usernameReg" class="float-start">Email</label>
+              <input id="usernameReg" class="form-control" type="text" placeholder="Your email..."
+                     v-model="user.username">
+
+              <label for="passwordReg" class="float-start">Password</label>
+              <input id="passwordReg" class="form-control" type="text" placeholder="Your password..."
+                     v-model="user.password">
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" @click="login">Register</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
