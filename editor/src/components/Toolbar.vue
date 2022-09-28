@@ -25,11 +25,16 @@
                 <font-awesome-icon icon="fa-solid fa-folder-open"/>
                 Open document</a>
             </li>
-            <li>
+            <li v-if="!loggedIn">
               <a id="login-button" class="nav-link" data-bs-toggle="modal"
                  data-bs-target="#loginModal">
                 <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket"/>
                 Login</a>
+            </li>
+            <li v-if="loggedIn">
+              <a id="logout-button" class="nav-link" @click="handleLogout">
+                <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket"/>
+                Logout</a>
             </li>
           </ul>
         </div>
@@ -170,6 +175,11 @@ export default {
       }
     }
   },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+  },
   methods: {
     async saveText() {
       let text = document.getElementsByClassName('ql-editor');
@@ -244,6 +254,9 @@ export default {
                 error.toString();
           }
       );
+    },
+    handleLogout() {
+      this.$store.dispatch("auth/logout");
     },
   }
 }
