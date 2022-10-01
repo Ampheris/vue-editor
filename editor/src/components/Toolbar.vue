@@ -9,17 +9,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item" v-if="loggedIn">
               <a class="nav-link" @click.prevent="saveText">
                 <font-awesome-icon icon="fa-solid fa-floppy-disk"/>
                 Save</a>
             </li>
-            <li>
+            <li v-if="loggedIn">
               <a id="create-document" class="nav-link" data-bs-toggle="modal" data-bs-target="#createNewModal">
                 <font-awesome-icon icon="fa-solid fa-plus"/>
                 Create new</a>
             </li>
-            <li>
+            <li v-if="loggedIn">
               <a id="open-document" class="nav-link" @click="getAllDocuments" data-bs-toggle="modal"
                  data-bs-target="#getAllModal">
                 <font-awesome-icon icon="fa-solid fa-folder-open"/>
@@ -100,12 +100,12 @@
           </div>
           <div class="modal-body">
             <div class="mb-3 form-group">
-              <label for="username" class="float-start">Username</label>
-              <input id="username" class="form-control" type="text" placeholder="Your username..."
-                     v-model="user.username">
+              <label for="username" class="float-start">Email</label>
+              <input id="username" class="form-control" type="text" placeholder="Your email..."
+                     v-model="user.email">
 
               <label for="password" class="float-start">Password</label>
-              <input id="password" class="form-control" type="text" placeholder="Your email..."
+              <input id="password" class="form-control" type="text" placeholder="Your password..."
                      v-model="user.password">
             </div>
             <div class="modal-footer">
@@ -131,7 +131,7 @@
             <div class="mb-3 form-group">
               <label for="usernameReg" class="float-start">Email</label>
               <input id="usernameReg" class="form-control" type="text" placeholder="Your email..."
-                     v-model="user.username">
+                     v-model="user.email">
 
               <label for="passwordReg" class="float-start">Password</label>
               <input id="passwordReg" class="form-control" type="text" placeholder="Your password..."
@@ -170,7 +170,7 @@ export default {
         content: '',
       },
       user: {
-        username: '',
+        email: '',
         password: '',
       }
     }
@@ -215,45 +215,12 @@ export default {
       this.webSocket.createRoom(this.currentFile.id);
       this.$emit('getDocId', this.currentFile.id)
     },
-    handleLogin(user) {
-      this.$store.dispatch("auth/login", user).then(
-          (data) => {
-            if (data.success === 0) {
-              this.message = data.message;
-              this.successful = false;
-            } else {
-              history.go(-1);
-            }
-          },
-          (error) => {
-            this.message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-          }
-      );
+    handleLogin() {
+      this.$store.dispatch("auth/login", this.user);
     },
-    handleRegister(user) {
+    handleRegister() {
       this.message = "";
-      this.$store.dispatch("auth/register", user).then(
-          (data) => {
-            if (data.success === 0) {
-              this.message = data.message;
-            } else {
-              this.message = data.message;
-            }
-          },
-          (error) => {
-            this.message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-          }
-      );
+      this.$store.dispatch("auth/register", this.user);
     },
     handleLogout() {
       this.$store.dispatch("auth/logout");

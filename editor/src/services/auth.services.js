@@ -2,7 +2,7 @@
  * Authentication service
  *
  */
-import axios from "axios";
+import http from '../http-common';
 
 class AuthService {
     /**
@@ -11,7 +11,9 @@ class AuthService {
      * @returns {Object} success and message
      */
     register(formData) {
-        return axios.post("/register", formData, {
+        console.log('Trying to register user.');
+
+        return http.post("/register", formData, {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -23,7 +25,7 @@ class AuthService {
      * @returns {Object} user data.
      */
     login(user) {
-        return axios
+        return http
             .post(
                 "/login",
                 {
