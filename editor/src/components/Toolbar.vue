@@ -233,6 +233,15 @@ export default {
     },
     handleLogout() {
       this.$store.dispatch("auth/logout");
+      this.currentFile = {
+        id: '',
+          name: '',
+          content: '',
+      }
+      this.idOfDocument = '';
+
+      let editor = document.getElementsByClassName('ql-editor');
+      editor[0].innerHTML = '';
     },
   }
 }
