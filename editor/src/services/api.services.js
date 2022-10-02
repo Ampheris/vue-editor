@@ -10,8 +10,8 @@ export default class APIService {
         return http.put(`/update/${id}`, formData,{headers: authHeader()});
     }
 
-    static getAllDocuments(){
-        return http.get('/all', {headers: authHeader()});
+    static getAllDocuments(user){
+        return http.get(`/all/${user}`, {headers: authHeader()});
     }
 
     static getSpecificFile(id){

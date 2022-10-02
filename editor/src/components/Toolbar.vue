@@ -31,6 +31,12 @@
                 <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket"/>
                 Login</a>
             </li>
+            <li v-if="!loggedIn">
+              <a id="register-button" class="nav-link" data-bs-toggle="modal"
+                 data-bs-target="#registerModal">
+                <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket"/>
+                Register</a>
+            </li>
             <li v-if="loggedIn">
               <a id="logout-button" class="nav-link" @click="handleLogout">
                 <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket"/>
@@ -105,14 +111,11 @@
                      v-model="user.email">
 
               <label for="password" class="float-start">Password</label>
-              <input id="password" class="form-control" type="text" placeholder="Your password..."
+              <input id="password" class="form-control" type="password" placeholder="Your password..."
                      v-model="user.password">
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" @click="handleLogin">Login</button>
-              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                      data-bs-target="#registerModal">Register
-              </button>
             </div>
           </div>
         </div>
@@ -161,7 +164,8 @@ export default {
       idOfDocument: '',
       newDocument: {
         name: '',
-        content: 'your new document here...'
+        content: 'your new document here...',
+        user: ''
       },
       documents: [],
       currentFile: {
@@ -179,6 +183,9 @@ export default {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
   },
   methods: {
     async saveText() {
@@ -192,6 +199,8 @@ export default {
     },
     async createNew() {
       try {
+        this.newDocument.user = this.currentUser._id;
+
         await APIService.createNew(this.newDocument);
         let newDocuments = await APIService.getAllDocuments();
         this.documents = newDocuments.data.files;
@@ -200,7 +209,7 @@ export default {
       }
     },
     async getAllDocuments() {
-      let result = await APIService.getAllDocuments();
+      let result = await APIService.getAllDocuments(this.currentUser._id);
       this.documents = result.data.files;
     },
     async openDocument() {
