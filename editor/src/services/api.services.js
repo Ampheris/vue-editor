@@ -19,7 +19,7 @@ export default class APIService {
         let response = await fetch('http://localhost:1337/graphql', {
             method: 'POST',
             headers: neededHeaders,
-            body: JSON.stringify({ query: `{documents(userId: "${user}") {name,content}}`})
+            body: JSON.stringify({ query: `{yourDocuments(userId: "${user}") {name,content}}`})
         });
 
         return await response.json();
