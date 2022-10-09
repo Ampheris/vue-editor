@@ -137,7 +137,7 @@
                      v-model="user.email">
 
               <label for="passwordReg" class="float-start">Password</label>
-              <input id="passwordReg" class="form-control" type="text" placeholder="Your password..."
+              <input id="passwordReg" class="form-control" type="password" placeholder="Your password..."
                      v-model="user.password">
             </div>
             <div class="modal-footer">
