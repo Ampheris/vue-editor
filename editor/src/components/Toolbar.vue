@@ -203,14 +203,14 @@ export default {
 
         await APIService.createNew(this.newDocument);
         let newDocuments = await APIService.getAllDocuments(this.currentUser._id);
-        this.documents = newDocuments.data.documents;
+        this.documents = newDocuments.data.yourDocuments;
       } catch (e) {
         console.log('Error: failed to create document');
       }
     },
     async getAllDocuments() {
       let result = await APIService.getAllDocuments(this.currentUser._id);
-      this.documents = result.data.documents;
+      this.documents = result.data.yourDocuments;
     },
     async openDocument() {
       let result = await APIService.getSpecificFile(this.idOfDocument);
