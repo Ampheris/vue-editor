@@ -9,11 +9,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item" v-if="loggedIn">
-              <a class="nav-link" @click.prevent="saveText">
-                <font-awesome-icon icon="fa-solid fa-floppy-disk"/>
-                Save</a>
-            </li>
             <li v-if="loggedIn">
               <a id="create-document" class="nav-link" data-bs-toggle="modal" data-bs-target="#createNewModal">
                 <font-awesome-icon icon="fa-solid fa-plus"/>
@@ -24,6 +19,11 @@
                  data-bs-target="#getAllModal">
                 <font-awesome-icon icon="fa-solid fa-folder-open"/>
                 Open document</a>
+            </li>
+            <li class="nav-item" v-if="loggedIn">
+              <a class="nav-link" @click.prevent="downloadPDF">
+                <font-awesome-icon icon="fa-solid fa-download"/>
+                Download PDF</a>
             </li>
             <li v-if="!loggedIn">
               <a id="login-button" class="nav-link" data-bs-toggle="modal"
@@ -154,10 +154,14 @@
 
 <script>
 import APIService from "@/services/api.services";
+import {pdfExporter} from "quill-to-pdf";
+import { saveAs } from 'file-saver';
+
 
 export default {
   name: "ToolbarItem",
   inject: ['socket'],
+  props: ['editor'],
   data() {
     return {
       webSocket: this.socket,
@@ -188,14 +192,12 @@ export default {
     },
   },
   methods: {
-    async saveText() {
-      let text = document.getElementsByClassName('ql-editor');
-      console.log(`Printing content of text editor:`);
-      console.log(text[0].innerHTML);
+    async downloadPDF() {
+      const quillDelta = this.editor.getContents();
+      const pdfBlob = await pdfExporter.generatePdf(quillDelta);
+      let underScoredName = this.currentFile.name.split(' ').join('_');
 
-      this.currentFile.content = text[0].innerHTML;
-
-      await APIService.updateDocument(this.currentFile, this.currentFile.id);
+      saveAs(pdfBlob, `${underScoredName}.pdf`);
     },
     async createNew() {
       try {
@@ -235,8 +237,8 @@ export default {
       this.$store.dispatch("auth/logout");
       this.currentFile = {
         id: '',
-          name: '',
-          content: '',
+        name: '',
+        content: '',
       }
       this.idOfDocument = '';
 

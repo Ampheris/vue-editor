@@ -44,6 +44,7 @@ export default {
   methods: {
     editorReady(quill) {
       this.editor = quill;
+      this.$emit('getQuill', this.editor);
     },
     editingText(delta) {
       console.log(`Document id: ${this.docId}`);

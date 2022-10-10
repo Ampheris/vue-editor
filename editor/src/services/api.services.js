@@ -15,11 +15,11 @@ export default class APIService {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         };
-
-        let response = await fetch('https://jsramverk-editor-macl16.azurewebsites.net/graphql', {
+        // https://jsramverk-editor-macl16.azurewebsites.net
+        let response = await fetch('http://localhost:1337/graphql', {
             method: 'POST',
             headers: neededHeaders,
-            body: JSON.stringify({ query: `{yourDocuments(userId: "${user}") {name,content}}`})
+            body: JSON.stringify({ query: `{yourDocuments(userId: "${user}") {_id,name,content}}`})
         });
 
         return await response.json();
