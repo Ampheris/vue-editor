@@ -13,7 +13,7 @@ class AuthService {
     register(formData) {
         console.log('Trying to register user.');
 
-        return http.post("/register", formData, {
+        return http.post("/api/register", formData, {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -27,7 +27,7 @@ class AuthService {
     login(user) {
         return http
             .post(
-                "/login",
+                "/api/login",
                 {
                     email: user.email,
                     password: user.password,

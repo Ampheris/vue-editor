@@ -8,6 +8,8 @@
 </template>
 
 <script>
+<link rel='stylesheet' type='text/css' href='node_modules/quill-comment/quill.comment.css' />
+
 import {QuillEditor} from "@vueup/vue-quill";
 import APIService from "@/services/api.services";
 
@@ -62,18 +64,17 @@ export default {
       }
     },
     async saveDoc() {
-      let data= {
+      let data = {
         _id: this.doc._id,
         content: this.doc.html,
       }
 
       await APIService.updateDocument(data, this.doc._id);
-    }
+    },
   }
 
 }
 </script>
 
 <style scoped>
-
 </style>

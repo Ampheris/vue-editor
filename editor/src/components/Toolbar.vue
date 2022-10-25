@@ -22,7 +22,7 @@
             </li>
             <li class="nav-item" v-if="loggedIn">
               <a class="nav-link" @click.prevent="downloadPDF">
-                <font-awesome-icon icon="fa-solid fa-download"/>
+                <font-awesome-icon icon="fa-solid fa-download" id="downloadPDF"/>
                 Download PDF</a>
             </li>
             <li v-if="!loggedIn">
@@ -36,6 +36,12 @@
                  data-bs-target="#registerModal">
                 <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket"/>
                 Register</a>
+            </li>
+            <li v-if="loggedIn">
+              <a id="sendInvite" class="nav-link" data-bs-toggle="modal"
+                 data-bs-target="#sendInviteModal">
+                <font-awesome-icon icon="fa-solid fa-paper-plane"/>
+                Send invite</a>
             </li>
             <li v-if="loggedIn">
               <a id="logout-button" class="nav-link" @click="handleLogout">
@@ -148,6 +154,31 @@
         </div>
       </div>
     </div>
+
+    <!-- SEND INVITE FORM MODAL -->
+    <div class="modal fade" id="sendInviteModal" tabindex="-1" aria-labelledby="sendInviteModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sendInviteModalTitle">Send invite to your document</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <small>Adding a co-editor for the following document: {{ this.currentFile.name }}</small>
+            <div class="mb-3 form-group">
+              <label for="usernameReg" class="float-start">Email</label>
+              <input id="usernameReg" class="form-control" type="text"
+                     placeholder="The email of the one you want to invite..."
+                     v-model="invite.email">
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" @click="sendEmail">Register
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- END OF GET ALL DOCUMENT MODAL-->
 </template>
@@ -155,7 +186,7 @@
 <script>
 import APIService from "@/services/api.services";
 import {pdfExporter} from "quill-to-pdf";
-import { saveAs } from 'file-saver';
+import {saveAs} from 'file-saver';
 
 
 export default {
@@ -180,6 +211,10 @@ export default {
       user: {
         email: '',
         password: '',
+      },
+      invite: {
+        email: '',
+        documentId: ''
       }
     }
   },
@@ -193,11 +228,13 @@ export default {
   },
   methods: {
     async downloadPDF() {
-      const quillDelta = this.editor.getContents();
-      const pdfBlob = await pdfExporter.generatePdf(quillDelta);
-      let underScoredName = this.currentFile.name.split(' ').join('_');
+      if (this.idOfDocument) {
+        const quillDelta = this.editor.getContents();
+        const pdfBlob = await pdfExporter.generatePdf(quillDelta);
+        let underScoredName = this.currentFile.name.split(' ').join('_');
 
-      saveAs(pdfBlob, `${underScoredName}.pdf`);
+        saveAs(pdfBlob, `${underScoredName}.pdf`);
+      }
     },
     async createNew() {
       try {
@@ -205,14 +242,14 @@ export default {
 
         await APIService.createNew(this.newDocument);
         let newDocuments = await APIService.getAllDocuments(this.currentUser._id);
-        this.documents = newDocuments.data.yourDocuments;
+        this.documents = newDocuments.data.data.yourDocuments;
       } catch (e) {
         console.log('Error: failed to create document');
       }
     },
     async getAllDocuments() {
       let result = await APIService.getAllDocuments(this.currentUser._id);
-      this.documents = result.data.yourDocuments;
+      this.documents = result.data.data.yourDocuments;
     },
     async openDocument() {
       let result = await APIService.getSpecificFile(this.idOfDocument);
@@ -245,6 +282,20 @@ export default {
       let editor = document.getElementsByClassName('ql-editor');
       editor[0].innerHTML = '';
     },
+    async sendEmail() {
+      this.invite.documentId = this.idOfDocument;
+
+      const mailOptions = {
+        to: this.invite.email,
+        subject: `You're invited to co-edit a document`,
+        text: `You're invited by ${this.currentUser.email} to edit the document called ${this.currentFile.name}.
+        Follow this link: https://jsramverk-editor-macl16.azurewebsites.net. When you register on the page you will be automatically added to the document.`,
+        documentId: this.idOfDocument
+      };
+
+
+      await APIService.sendEmail(mailOptions);
+    }
   }
 }
 </script>

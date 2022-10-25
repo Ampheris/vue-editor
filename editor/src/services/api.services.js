@@ -1,13 +1,14 @@
 import http from '../http-common';
 import authHeader from "@/services/auth-header";
 
+
 export default class APIService {
     static createNew(formData) {
-        return http.post('/create', formData, {headers: authHeader()});
+        return http.post('/api/create', formData, {headers: authHeader()});
     }
 
     static updateDocument(formData, id) {
-        return http.put(`/update/${id}`, formData, {headers: authHeader()});
+        return http.put(`/api/update/${id}`, formData, {headers: authHeader()});
     }
 
     static async getAllDocuments(user) {
@@ -15,19 +16,21 @@ export default class APIService {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         };
-        // https://jsramverk-editor-macl16.azurewebsites.net
-        let response = await fetch('http://localhost:1337/graphql', {
-            method: 'POST',
-            headers: neededHeaders,
-            body: JSON.stringify({ query: `{yourDocuments(userId: "${user}") {_id,name,content}}`})
-        });
 
-        return await response.json();
+        const graphqlQuery = {
+            "query": `query  {yourDocuments(userId: "${user}") {_id,name,content}}`,
+        };
+
+        return await http.post('/graphql', graphqlQuery, {headers: neededHeaders});
 
         //return http.get(`/all/${user}`, {headers: authHeader()});
     }
 
     static getSpecificFile(id) {
-        return http.get(`/get/${id}`, {headers: authHeader()});
+        return http.get(`/api/get/${id}`, {headers: authHeader()});
+    }
+
+    static sendEmail(mailOptions) {
+        return http.post(`/api/sendEmail`, mailOptions,{headers: authHeader()});
     }
 }
