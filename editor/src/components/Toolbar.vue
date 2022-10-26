@@ -283,16 +283,13 @@ export default {
       editor[0].innerHTML = '';
     },
     async sendEmail() {
-      this.invite.documentId = this.idOfDocument;
-
       const mailOptions = {
         to: this.invite.email,
         subject: `You're invited to co-edit a document`,
         text: `You're invited by ${this.currentUser.email} to edit the document called ${this.currentFile.name}.
-        Follow this link: https://jsramverk-editor-macl16.azurewebsites.net. When you register on the page you will be automatically added to the document.`,
+        Follow this link: www.student.bth.se/~macl16/editor . When you register on the page you will be automatically added to the document.`,
         documentId: this.idOfDocument
       };
-
 
       await APIService.sendEmail(mailOptions);
     }
